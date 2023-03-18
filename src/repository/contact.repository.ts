@@ -17,8 +17,8 @@ export default class ContactRepository {
         return await this.repository.findBy({userId: user.id});
     }
 
-    async findByEmail(email: string) {
-        return await this.repository.findBy({email});
+    async findByEmail(email: string, user: User) {
+        return await this.repository.findBy({email, userId: user.id});
     }
 
     async create(contact: ContactDto, user: User) {

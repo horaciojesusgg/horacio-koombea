@@ -1,6 +1,6 @@
 import { Multer } from "multer";
 import { autoInjectable } from "tsyringe";
-import { Contact } from "../../entity/Contact";
+import ContactFileStatus from "../../constants/contactFileStatus.enum";
 import { ContactFile } from "../../entity/ContactFile";
 import ContactDto from "../../entity/DTO/contact.dto";
 import { User } from "../../entity/User";
@@ -23,12 +23,12 @@ export default class ContactService {
 
     async saveContactFile(file: Express.Multer.File, user: User) {
         if(!user) return;
-        const savedFile = await this.contactFileRepository.create({
+        const savedFile = await this.contactFileRepository.save({
             fileName: file.originalname,
             content: file.buffer,
             mimetype: file.mimetype,
             size: file.size,
-            status: 'new',
+            status: ContactFileStatus.NEW,
         }, user);
 
         return savedFile;
@@ -44,6 +44,7 @@ export default class ContactService {
     async processContactFile(fileId: string, user: User) {
         const file = await this.contactFileRepository.getById(fileId);
         if (!file) return;
+        await this.contactFileRepository.patch({...file, status: ContactFileStatus.PROCESSING}, user);
         const csvData = file.content.toString();
 
         const rows = csvData.split("\n");
@@ -53,14 +54,16 @@ export default class ContactService {
                 continue;
             };
             const contact = Validator.mapRowToJson(rows[index]);
-            const existingContact = await this.contactRepository.findByEmail(contact.email);
-            if (existingContact) continue;
+            const existingContact = await this.contactRepository.findByEmail(contact.email, user);
+            if (existingContact.length) continue;
             const creditCardNetwork = IdentifyCardIssuer(contact.creditCardNumber) || '';
             await this.saveContact({
                 ...contact,
                 creditCardNetwork
             }, user);
         }
+
+        await this.contactFileRepository.patch({...file, status: ContactFileStatus.PROCESSED}, user);
     }
 
     private async saveContact(contact: ContactDto, user: User) {

@@ -13,12 +13,19 @@ export default class contactFileRepository {
         this.repository = AppDataSource.getRepository(ContactFile)
     }
 
-    async create(contactFile: ContactFileDto, user: User) {
+    async save(contactFile: ContactFileDto, user: User) {
        return await this.repository.save({
             ...contactFile,
             user
         })
     }
+
+    async patch(contactFile: ContactFile, user: User) {
+        return await this.repository.save({
+             ...contactFile,
+             user
+         })
+     }
 
     async getAll(user: User) {
         return await this.repository.findBy({userId: user.id});

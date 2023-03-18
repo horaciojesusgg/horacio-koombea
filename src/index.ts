@@ -8,7 +8,7 @@ const main = async () => {
         await AppDataSource.initialize();
         app.listen();
     } catch(error) {
-        console.log(error)
+        console.error(error)
     }
 
 }

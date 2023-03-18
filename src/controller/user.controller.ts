@@ -36,7 +36,7 @@ export default class UserController {
         if (!passwordMatch) {
           return res.status(401).json({ message: 'Invalid email or password' });
         }
-        const token = jwt.sign({ email: user.email, id: user.id }, config.jwtSecret, { expiresIn: '1h' });
+        const token = jwt.sign({ email: user.email, id: user.id }, config.jwtSecret, { expiresIn: '24h' });
         res.json({ token });
     }
 }
