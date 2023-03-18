@@ -25,6 +25,9 @@ export class ContactFile {
   @ManyToOne(() => User, user => user.contactFiles)
   user: User;
 
+  @Column()
+  userId: string;
+
   @CreateDateColumn()
   createdAt: Date;
 

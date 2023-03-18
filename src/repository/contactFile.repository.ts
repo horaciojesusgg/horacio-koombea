@@ -21,11 +21,10 @@ export default class contactFileRepository {
     }
 
     async getAll(user: User) {
-        return await this.repository.findBy({user});
+        return await this.repository.findBy({userId: user.id});
     }
 
     async getById(id: string): Promise<ContactFile | null> {
         return await this.repository.findOneBy({id});
     }
-
 }
