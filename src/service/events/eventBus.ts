@@ -1,5 +1,6 @@
 import { EventEmitter } from 'events'
 import {autoInjectable} from "tsyringe";
+import { User } from '../../entity/User';
 import ContactService from '../contacts/contacts.service';
 
 @autoInjectable()
@@ -12,14 +13,13 @@ export default class EventBus {
     }
 
     private registerEvents() {
-        this.eventBroker.on('ProcessContactsFile', (fileId: string) => {
-            console.log('PROCESS EVENT, ', fileId)
-            this.contactService.processContactFile(fileId);
+        this.eventBroker.on('ProcessContactsFile', (fileId: string, user: User) => {
+            this.contactService.processContactFile(fileId, user);
         }) 
     }
 
     public emit(event: string, args?: any) {
-        this.eventBroker.emit(event, args);
+        this.eventBroker.emit(event, ...args);
     }
 
 }

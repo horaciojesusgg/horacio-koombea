@@ -14,7 +14,7 @@ const IdentifyCardIssuer = (cardNumber: string) => {
  
    for (const [issuer, pattern] of Object.entries(patterns)) {
      if (pattern.test(cleanedCardNumber)) {
-       return issuer;
+       return issuer.toUpperCase();
      }
    }
  

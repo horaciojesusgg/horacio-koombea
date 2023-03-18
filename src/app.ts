@@ -5,9 +5,8 @@ import { controllers } from './controller';
 import { MetadataKeys } from './util/decorator/metadata.keys';
 import { IRouter } from './util/decorator/handlers.decorator';
 import { container } from 'tsyringe';
-import csv from 'csv-parser';
 import multer from 'multer';
-
+import bodyParser from 'body-parser';
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
@@ -23,19 +22,18 @@ export default class Server {
     }
 
     private middlewares() {
+        this.app.use(bodyParser.json());
         this.app.use(upload.single('file'));
         this.app.use(cors());
     }
 
     private registerRouters() {
-
         const info: Array<{ api: string, handler: string }> = [];
         controllers.forEach((controllerClass) => {
             const controllerInstance: { [handleName: string]: Handler } = container.resolve(controllerClass as any);
             const basePath: string = Reflect.getMetadata(MetadataKeys.BASE_PATH, controllerClass);
             const routers: IRouter[] = Reflect.getMetadata(MetadataKeys.ROUTERS, controllerClass);
             const exRouter = express.Router();
-            console.log(routers);
             routers.forEach(({ method, path, handlerName }) => {
                 exRouter[method](path, controllerInstance[String(handlerName)].bind(controllerInstance));
                 info.push({
@@ -47,6 +45,7 @@ export default class Server {
         });
         console.table(info);
     }
+
 
     listen() {
         this.app.listen(3000, () => {

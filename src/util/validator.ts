@@ -1,4 +1,5 @@
 import moment from "moment";
+import ContactDto from "../entity/DTO/contact.dto";
 
 export default class Validator {
 
@@ -19,6 +20,19 @@ export default class Validator {
         && address);
 
 
+    }
+
+    static mapRowToJson(row: string): ContactDto {
+        const values = row.split(',')
+        return {
+            name: values[0],
+            dateOfBirth: new Date(values[1]),
+            phone: values[2],
+            address: values[3],
+            creditCardNumber: values[4],
+            email: values[5],
+            creditCardNetwork: ''
+        }
     }
 
     static isValidName(name: string) {

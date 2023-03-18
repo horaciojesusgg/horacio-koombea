@@ -1,6 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
-
+import { User } from './User';
 @Entity()
 export class Contact {
   @PrimaryGeneratedColumn('uuid')
@@ -26,6 +26,12 @@ export class Contact {
 
   @Column()
   creditCardNetwork: string;
+
+  @ManyToOne(() => User, user => user.contacts)
+  user: User;
+
+  @Column()
+  userId: string;
 
   @CreateDateColumn()
   createdAt: Date;

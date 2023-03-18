@@ -1,6 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToMany, ManyToOne } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
-
+import { Contact } from './Contact'
+import { User } from './User';
 @Entity()
 export class ContactFile {
   @PrimaryGeneratedColumn('uuid')
@@ -20,6 +21,9 @@ export class ContactFile {
 
   @Column()
   status: string;
+
+  @ManyToOne(() => User, user => user.contactFiles)
+  user: User;
 
   @CreateDateColumn()
   createdAt: Date;

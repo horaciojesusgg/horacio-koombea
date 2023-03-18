@@ -3,6 +3,7 @@ import { Repository } from "typeorm";
 import { ContactFile } from "../entity/ContactFile";
 import { AppDataSource } from "./db";
 import  ContactFileDto from "../entity/DTO/contactFile.dto";
+import { User } from "../entity/User";
 
 @autoInjectable()
 export default class contactFileRepository {
@@ -12,14 +13,15 @@ export default class contactFileRepository {
         this.repository = AppDataSource.getRepository(ContactFile)
     }
 
-    async create(contactFile: ContactFileDto) {
+    async create(contactFile: ContactFileDto, user: User) {
        return await this.repository.save({
-            ...contactFile
+            ...contactFile,
+            user
         })
     }
 
-    async get() {
-        return await this.repository.find();
+    async getAll(user: User) {
+        return await this.repository.findBy({user});
     }
 
     async getById(id: string): Promise<ContactFile | null> {
