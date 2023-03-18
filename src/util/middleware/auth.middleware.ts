@@ -1,7 +1,7 @@
 import { Response } from "express";
 import AuthRequest from "./authRequest.interface"
+import config from "../../config";
 const jwt = require('jsonwebtoken');
-const JWT_SECRET = 'secret_key_horacio';
 
 const authMiddleware = () => {
   return function (target: any, key: string, descriptor: PropertyDescriptor) {
@@ -15,7 +15,7 @@ const authMiddleware = () => {
 
       const token = authHeader.split(' ')[1];
       try {
-        const decoded = jwt.verify(token, JWT_SECRET);
+        const decoded = jwt.verify(token, config.jwtSecret);
         req.user = decoded;
         return originalMethod.apply(this, arguments);
       } catch (err) {

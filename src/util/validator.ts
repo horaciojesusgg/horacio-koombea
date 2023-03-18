@@ -18,8 +18,6 @@ export default class Validator {
         && this.isValidEmail(email)
         && creditCardNumer
         && address);
-
-
     }
 
     static mapRowToJson(row: string): ContactDto {

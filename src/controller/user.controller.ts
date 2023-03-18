@@ -5,7 +5,7 @@ import { autoInjectable } from 'tsyringe';
 import UserRepository from '../repository/user.repository';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-
+import config from '../config';
 @Controller('/user')
 @autoInjectable()
 export default class UserController {
@@ -36,7 +36,7 @@ export default class UserController {
         if (!passwordMatch) {
           return res.status(401).json({ message: 'Invalid email or password' });
         }
-        const token = jwt.sign({ email: user.email, id: user.id }, 'secret_key_horacio', { expiresIn: '1h' });
+        const token = jwt.sign({ email: user.email, id: user.id }, config.jwtSecret, { expiresIn: '1h' });
         res.json({ token });
     }
 }

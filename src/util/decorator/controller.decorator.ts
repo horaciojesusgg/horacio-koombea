@@ -1,4 +1,3 @@
-// src/utils/controller.decorator.ts
 import { MetadataKeys } from './metadata.keys';
 const Controller = (basePath: string): ClassDecorator => {
   return (target) => {

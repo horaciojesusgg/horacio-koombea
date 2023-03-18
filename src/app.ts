@@ -9,13 +9,11 @@ import multer from 'multer';
 import bodyParser from 'body-parser';
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
-
 export default class Server {
     private app: ExApplication;
     constructor() {
         this.app = express();
         this.app.use(express.json());
-
         this.middlewares();
         this.registerRouters();
         

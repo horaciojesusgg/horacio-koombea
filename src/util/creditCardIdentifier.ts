@@ -1,6 +1,5 @@
 
 const IdentifyCardIssuer = (cardNumber: string) => {
-   // Remove any non-digit characters from the card number
    const cleanedCardNumber = cardNumber.replace(/\D/g, '');
   
    const patterns = {
