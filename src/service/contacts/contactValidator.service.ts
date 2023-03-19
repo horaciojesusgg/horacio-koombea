@@ -1,10 +1,14 @@
 import moment from "moment";
-import ContactDto from "../entity/DTO/contact.dto";
-import CreditCardValidator from "../service/contacts/creditCardValidator.service";
+import { autoInjectable } from "tsyringe";
+import ContactDto from "../../entity/DTO/contact.dto";
+import CreditCardValidator from "./creditCardValidator.service";
 
-export default class Validator {
+@autoInjectable()
+export default class ContactValidator {
 
-    static validateRow(row: string) {
+    constructor(private creditCardValidator: CreditCardValidator) {}
+
+    public validateRow(row: string) {
         const values = row.split(',')
         const name = values[0];
         const dob = values[1];
@@ -24,7 +28,7 @@ export default class Validator {
         return validationResults;
     }
 
-    static mapRowToJson(row: string): ContactDto {
+    public mapRowToJson(row: string): ContactDto {
         const values = row.split(',')
         return {
             name: values[0],
@@ -38,23 +42,20 @@ export default class Validator {
         }
     }
 
-    static isValidCCNumber(value: string): Promise<boolean> {
+    private isValidCCNumber(value: string): Promise<boolean> {
         return new Promise((resolve, reject) => {
-          const validator = new CreditCardValidator();
-          const result = validator.validateCreditCardNumberLength(value);
+          const result = this.creditCardValidator.validateCreditCardNumberLength(value);
           if (result.isValid) {
-            
-          }
-          if (value.length !== 0) {
             resolve(true);
+            
           } else {
-            reject('Empty CC Number');
+            reject('Credit Card Number not valid');
           }
         });
       }
 
 
-    static isValidAddress(value: string): Promise<boolean> {
+      private isValidAddress(value: string): Promise<boolean> {
         return new Promise((resolve, reject) => {
           if (value.length !== 0) {
             resolve(true);
@@ -64,9 +65,9 @@ export default class Validator {
         });
       }
 
-    static isValidName(name: string): Promise<boolean> {
+      private isValidName(name: string): Promise<boolean> {
         return new Promise((resolve, reject) => {
-          const regex = /^[a-zA-Z0-9\-]+$/;
+          const regex = /^[a-zA-Z0-9\s\-]+$/;
           const isValid = regex.test(name);
           if (isValid) {
             resolve(true);
@@ -76,7 +77,7 @@ export default class Validator {
         });
       }
 
-      static isValidDoB(dob: string): Promise<boolean> {
+      private isValidDoB(dob: string): Promise<boolean> {
         return new Promise((resolve, reject) => {
           const formats = ['YYYYMMDD', 'YYYY-MM-DD'];
           const isIso8601 = moment(dob, formats, true).isValid();
@@ -91,7 +92,7 @@ export default class Validator {
         });
       }
       
-      static isValidPhoneNumber(phoneNumber: string): Promise<boolean> {
+      private isValidPhoneNumber(phoneNumber: string): Promise<boolean> {
         return new Promise((resolve, reject) => {
           const regex = /^\(\+\d{2}\) \d{3}[- ]?\d{3}[- ]?\d{2}[- ]?\d{2}$/;
           if (regex.test(phoneNumber)) {
@@ -102,7 +103,7 @@ export default class Validator {
         });
       }
       
-      static  isValidEmail(email: string): Promise<boolean> {
+      private  isValidEmail(email: string): Promise<boolean> {
         return new Promise((resolve, reject) => {
           const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
           if (emailRegex.test(email.trim())) {

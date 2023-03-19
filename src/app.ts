@@ -7,6 +7,7 @@ import { IRouter } from './util/decorator/handlers.decorator';
 import { container } from 'tsyringe';
 import multer from 'multer';
 import bodyParser from 'body-parser';
+import RoutesInfo  from './constants/routesInfo.type';
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 export default class Server {
@@ -26,7 +27,7 @@ export default class Server {
     }
 
     private registerRouters() {
-        const info: Array<{ api: string, handler: string }> = [];
+        const info: RoutesInfo[] = [];
         controllers.forEach((controllerClass) => {
             const controllerInstance: { [handleName: string]: Handler } = container.resolve(controllerClass as any);
             const basePath: string = Reflect.getMetadata(MetadataKeys.BASE_PATH, controllerClass);
@@ -43,7 +44,6 @@ export default class Server {
         });
         console.table(info);
     }
-
 
     listen() {
         this.app.listen(3000, () => {

@@ -9,6 +9,9 @@ interface Contact {
   name: string;
   email: string;
   phone: string;
+  creditCardLastFour: string;
+  creditCardNetwork: string;
+
 }
 
 interface ContactFiles {
@@ -43,6 +46,8 @@ const ContactTable: React.FC = () => {
             <TableCell align="left">Name</TableCell>
             <TableCell align="left">Email</TableCell>
             <TableCell align="left">Phone</TableCell>
+            <TableCell align="left">Credit Card Last Four</TableCell>
+            <TableCell align="left">Credit Card Network</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -51,10 +56,12 @@ const ContactTable: React.FC = () => {
               key={row.id}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
-              <TableCell align="right">{row.id}</TableCell>
-              <TableCell align="right">{row.name}</TableCell>
-              <TableCell align="right">{row.email}</TableCell>
-              <TableCell align="right">{row.phone}</TableCell>
+              <TableCell align="left">{row.id}</TableCell>
+              <TableCell align="left">{row.name}</TableCell>
+              <TableCell align="left">{row.email}</TableCell>
+              <TableCell align="left">{row.phone}</TableCell>
+              <TableCell align="left">{row.creditCardLastFour}</TableCell>
+              <TableCell align="left">{row.creditCardNetwork}</TableCell>
             </TableRow>
           ))}
         </TableBody>

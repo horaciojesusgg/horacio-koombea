@@ -6,7 +6,8 @@ const config = {
     dbUsername: process.env.DB_USERNAME || 'postgres',
     dbPassword: process.env.DB_PASSWORD || 'example',
     dbDatabase:  process.env.DB_NAME || 'horacio-test-koombea-db',
-    jwtSecret: process.env.JWT_SECRET || 'secret_key_horacio'
+    jwtSecret: process.env.JWT_SECRET || 'secret_key_horacio',
+    cryptoSecret: process.env.CRYPTO_SECRET_KEY || '',
 }
 
 export default config;

@@ -22,6 +22,9 @@ export class ContactFile {
   @Column()
   status: string;
 
+  @Column({nullable: true})
+  errors: string;
+
   @ManyToOne(() => User, user => user.contactFiles)
   user: User;
 

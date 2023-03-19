@@ -27,6 +27,9 @@ export class Contact {
   @Column()
   creditCardNetwork: string;
 
+  @Column()
+  creditCardLastFour: string;
+
   @ManyToOne(() => User, user => user.contacts)
   user: User;
 

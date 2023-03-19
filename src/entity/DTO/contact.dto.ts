@@ -6,4 +6,5 @@ export default class ContactDto {
   address: string;
   creditCardNumber: string;
   creditCardNetwork: string;
+  creditCardLastFour: string;
 }

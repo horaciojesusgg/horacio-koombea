@@ -1,7 +1,8 @@
 enum ContactFileStatus {
-    NEW = 'New',
+    ON_HOLD = 'On Hold',
     PROCESSING = 'Processing',
-    PROCESSED = 'Processed'
+    FAILED = 'Failed',
+    TERMINATED = 'Terminated'
 }
 
 export default ContactFileStatus;
