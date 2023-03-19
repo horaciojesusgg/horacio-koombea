@@ -29,6 +29,7 @@ const FileUpload: React.FC<FileUploadProps> = ({ apiUrl }) => {
                     },
                 });
                 console.log("File uploaded successfully!");
+                window.location.reload();
             } catch (error) {
                 alert(error)
                 console.error(error);

@@ -1,20 +1,20 @@
 import { EventEmitter } from 'events'
 import {autoInjectable} from "tsyringe";
 import { User } from '../../entity/User';
-import ContactService from '../contacts/contacts.service';
+import ContactFilesService from '../contactFiles/contactFiles.service';
 
 @autoInjectable()
 export default class EventBus {
     private eventBroker: EventEmitter;
     
-    constructor(private contactService: ContactService) {
+    constructor(private contactFilesService: ContactFilesService) {
         this.eventBroker = new EventEmitter();
         this.registerEvents();
     }
 
     private registerEvents() {
         this.eventBroker.on('ProcessContactsFile', (fileId: string, user: User) => {
-            this.contactService.processContactFile(fileId, user);
+            this.contactFilesService.processContactFile(fileId, user);
         }) 
     }
 

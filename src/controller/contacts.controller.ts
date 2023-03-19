@@ -2,18 +2,24 @@ import ContactService from '../service/contacts/contacts.service';
 import authMiddleware from '../util/middleware/auth.middleware';
 import EventBus from '../service/events/eventBus';
 import Controller from '../util/decorator/controller.decorator';
-import { Request, Response } from 'express';
+import { Response } from 'express';
 import { Get, Post } from '../util/decorator/handlers.decorator';
 import { autoInjectable } from 'tsyringe';
 import AuthRequest from '../util/middleware/authRequest.interface';
 import UserRepository from '../repository/user.repository';
+import ContactFilesService from '../service/contactFiles/contactFiles.service';
 
 
 @Controller('/contacts')
 @autoInjectable()
 export default class ContactsController {
 
-    constructor(private eventBus: EventBus, private contactService: ContactService, private userRepo: UserRepository) {}
+    constructor(
+        private eventBus: EventBus,
+        private contactService: ContactService,
+        private userRepo: UserRepository,
+        private contactFilesService: ContactFilesService
+        ) {}
 
     @Get('')
     @authMiddleware()
@@ -46,7 +52,7 @@ export default class ContactsController {
     @Get('/files')
     @authMiddleware()
     async getFilesList(req: AuthRequest, res: Response) {
-        const files = await this.contactService.getAllContactFiles(req.user.email);
+        const files = await this.contactFilesService.getAllContactFiles(req.user.email);
         return res.json({files})
     }
 }
