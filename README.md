@@ -48,7 +48,7 @@ Step 3: Start the project
 The project should start on port 3001
 ## Resources
 
-You will be able to find a test CSV file under the "resources" directory on the project root.
+You will be able to find a test CSV file named 'test-file-koombea-horacio.csv' under the "resources" directory on the project root.
 
 You will be able to log in with the following credentials: 
 ```bash
