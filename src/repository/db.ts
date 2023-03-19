@@ -1,7 +1,4 @@
 import { DataSource } from "typeorm";
-import { Contact } from "../entity/Contact";
-import { User } from "../entity/User";
-import { ContactFile } from "../entity/ContactFile";
 import config from "../config";
 
 export const AppDataSource = new DataSource({
@@ -12,7 +9,6 @@ export const AppDataSource = new DataSource({
     password: config.dbPassword,
     database:  config.dbDatabase,
     port: 5432,
-    migrations: ['../migrations/**/*{.ts,.js}'],
-    entities: [User, Contact, ContactFile],
-    synchronize: false,
+    migrations: ['src/migrations/**/*{.js,.ts}'],
+    entities: ["src/entity/**/*{.js,.ts}"],
 })
