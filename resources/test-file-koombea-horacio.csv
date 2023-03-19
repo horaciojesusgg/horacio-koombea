@@ -1,0 +1,7 @@
+Name,Date of Birth,Phone,Address,Credit Card Number,Email
+horacio,1996-05-31,(+57) 320-432-05-09,test,4111111111111111,abc@test.com
+horacio2 incorrect dob,31-05-1996,(+57) 320-432-05-09,test,4111111111111112,test2@test.com
+horacio-dash,1996-05-31,(+57) 320-432-05-09,test,6011111111111117,test5@test.com
+horacio4 empty address,1996-05-31,(+57) 320-432-05-09,,4111111111111114,test3@test.com
+user correct third,1996-05-31,(+57) 320-432-05-09,test,6011111111111117,test7@test.com
+user incorrect credit card,1996-05-31,(+57) 320-432-05-09,test,9999111111111112,test5@test.com

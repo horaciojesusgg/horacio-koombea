@@ -1,8 +1,10 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import Table from '@mui/material/Table';
-import { Tab, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import Paper from '@mui/material/Paper';
+import { DataGrid } from '@mui/x-data-grid';
+import { width } from "@mui/system";
 
 interface Contact {
   id: string;
@@ -11,18 +13,18 @@ interface Contact {
   phone: string;
   creditCardLastFour: string;
   creditCardNetwork: string;
-
 }
-
-interface ContactFiles {
-    id: string;
-    fileName: string;
-    size: string;
-  }
 
 const ContactTable: React.FC = () => {
   const [contacts, setContacts] = useState<Contact[]>([]);
-
+  const colums = [
+    { field: 'id', headerName: 'Id', width: 150 },
+    { field: 'name', headerName: 'Name', width: 150 },
+    { field: 'email', headerName: 'Email', width: 150 },
+    { field: 'phone', headerName: 'Phone', width: 150 },
+    { field: 'creditCardLastFour', headerName: 'Credit Card Last Four', width: 150 },
+    { field: 'creditCardNetwork', headerName: 'Credit Card Network', width: 150 },
+  ];
   useEffect(() => {
     const fetchContacts = async () => {
         const bearerToken = localStorage.getItem("token");
@@ -31,6 +33,8 @@ const ContactTable: React.FC = () => {
               Authorization: `Bearer ${bearerToken}`,
             },
           });
+      
+
 
       setContacts(response.data.contacts);
     };
@@ -38,35 +42,9 @@ const ContactTable: React.FC = () => {
   }, []);
 
   return (
-<TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell align="left">Id</TableCell>
-            <TableCell align="left">Name</TableCell>
-            <TableCell align="left">Email</TableCell>
-            <TableCell align="left">Phone</TableCell>
-            <TableCell align="left">Credit Card Last Four</TableCell>
-            <TableCell align="left">Credit Card Network</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {contacts.map((row) => (
-            <TableRow
-              key={row.id}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell align="left">{row.id}</TableCell>
-              <TableCell align="left">{row.name}</TableCell>
-              <TableCell align="left">{row.email}</TableCell>
-              <TableCell align="left">{row.phone}</TableCell>
-              <TableCell align="left">{row.creditCardLastFour}</TableCell>
-              <TableCell align="left">{row.creditCardNetwork}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <div style={{ background: 'white',height: 300 , width:"100%" }}>
+      <DataGrid rows={contacts} columns={colums} />
+    </div>
   );
 };
 
